@@ -4,7 +4,7 @@ RAY_VERSION = "1.8.0"
 DASK_VERSION = "2021.9.1"
 
 setup(
-    name="fund_net",
+    name="qpl",
     version="0.1",
     description="",
     author="Joe Hurley",

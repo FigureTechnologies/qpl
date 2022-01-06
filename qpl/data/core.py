@@ -31,7 +31,6 @@ def process_training_data() -> None:
     #dask.config.set(scheduler=ray_dask_get)
 
     dates = ("0215", "0515", "0815", "1115")
-    dates = ("0215", "0515")
     
     #gs_bucket = cfg.path["src_data_dir"]["seed"]
     gs_bucket = SEED_LOC
@@ -70,8 +69,8 @@ def trim_to_srv_cols(xs: pd.DataFrame) -> pd.DataFrame:
     Does the actual paring down of columns
     """
     exp_cols = get_valid_cols()
-    cols = set(xs.columns).intersection(exp_cols).to_list() + ['y']
-    return xs[[cols]].copy()
+    cols = list(set(xs.columns).intersection(exp_cols)) + ['y']
+    return xs[cols].copy()
 
 def _merge_date_group(
     date: str,
@@ -87,7 +86,6 @@ def _merge_date_group(
     gs_bucket: Path where experian data lives.
     idx_cols: Index columns
     """
-    print (date)
     def load_experian_csv_wrapper(suffix: str) -> dd.DataFrame:
         fname = f"A1805077_{date}_{suffix}.csv"
         path = join(gs_bucket, fname)
@@ -113,8 +111,8 @@ def _load_experian_csv(path, idx_cols: List[str]) -> dd.DataFrame:
     df = df[keep_cols]
     df["record_nb"] = df["record_nb"].astype(int)
     df = df.set_index("record_nb")
-    return 
+    return df
 
 if __name__ == "__main__":
-    get_valid_cols()
-#    process_training_data()
+#    get_valid_cols()
+    process_training_data()
